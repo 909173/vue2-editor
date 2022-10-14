@@ -41,7 +41,7 @@ export default {
       type: Boolean,
     },
     editorToolbar: {
-      type: Array || String,
+      type: [Array, String],
       default: () => [],
     },
     editorOptions: {
