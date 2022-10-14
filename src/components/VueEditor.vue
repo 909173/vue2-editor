@@ -8,7 +8,7 @@
       ref="fileInput"
       type="file"
       accept="image/*"
-      style="display:none;"
+      style="display: none"
       @change="emitImageInfo($event)"
     />
   </div>
@@ -27,40 +27,40 @@ export default {
   props: {
     id: {
       type: String,
-      default: "quill-container"
+      default: "quill-container",
     },
     placeholder: {
       type: String,
-      default: ""
+      default: "",
     },
     value: {
       type: String,
-      default: ""
+      default: "",
     },
     disabled: {
-      type: Boolean
+      type: Boolean,
     },
     editorToolbar: {
-      type: Array,
-      default: () => []
+      type: Array || String,
+      default: () => [],
     },
     editorOptions: {
       type: Object,
       required: false,
-      default: () => ({})
+      default: () => ({}),
     },
     useCustomImageHandler: {
       type: Boolean,
-      default: false
+      default: false,
     },
     useMarkdownShortcuts: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: () => ({
-    quill: null
+    quill: null,
   }),
 
   watch: {
@@ -71,7 +71,7 @@ export default {
     },
     disabled(status) {
       this.quill.enable(!status);
-    }
+    },
   },
 
   mounted() {
@@ -100,7 +100,7 @@ export default {
         modules: this.setModules(),
         theme: "snow",
         placeholder: this.placeholder ? this.placeholder : "",
-        readOnly: this.disabled ? this.disabled : false
+        readOnly: this.disabled ? this.disabled : false,
       };
 
       this.prepareEditorConfig(editorConfig);
@@ -109,7 +109,9 @@ export default {
 
     setModules() {
       const modules = {
-        toolbar: this.editorToolbar.length ? this.editorToolbar : defaultToolbar
+        toolbar: this.editorToolbar.length
+          ? this.editorToolbar
+          : defaultToolbar,
       };
       if (this.useMarkdownShortcuts) {
         Quill.register("modules/markdownShortcuts", MarkdownShortcuts, true);
@@ -136,10 +138,10 @@ export default {
     },
 
     registerPrototypes() {
-      Quill.prototype.getHTML = function() {
+      Quill.prototype.getHTML = function () {
         return this.container.querySelector(".ql-editor").innerHTML;
       };
-      Quill.prototype.getWordCount = function() {
+      Quill.prototype.getWordCount = function () {
         return this.container.querySelector(".ql-editor").innerText.length;
       };
     },
@@ -181,7 +183,7 @@ export default {
       const deletedContents = currrentContents.diff(oldContents);
       const operations = deletedContents.ops;
 
-      operations.map(operation => {
+      operations.map((operation) => {
         if (operation.insert && operation.insert.hasOwnProperty("image")) {
           const { image } = operation.insert;
           this.$emit("image-removed", image);
@@ -202,7 +204,7 @@ export default {
     },
 
     emitImageInfo($event) {
-      const resetUploader = function() {
+      const resetUploader = function () {
         var uploader = document.getElementById("file-upload");
         uploader.value = "";
       };
@@ -211,8 +213,8 @@ export default {
       const range = Editor.getSelection();
       const cursorLocation = range.index;
       this.$emit("image-added", file, Editor, cursorLocation, resetUploader);
-    }
-  }
+    },
+  },
 };
 </script>
 
