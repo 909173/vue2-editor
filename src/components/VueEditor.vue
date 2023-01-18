@@ -1,7 +1,7 @@
 <template>
   <div class="quillWrapper">
     <slot name="toolbar"></slot>
-    <div :id="id" ref="quillContainer"></div>
+    <div :id="id" ref="quillContainer" @click="$emit('click', $event)"></div>
     <input
       v-if="useCustomImageHandler"
       id="file-upload"
@@ -93,7 +93,6 @@ export default {
       this.registerEditorEventListeners();
       this.$emit("ready", this.quill);
     },
-
     setupQuillEditor() {
       const editorConfig = {
         debug: false,
